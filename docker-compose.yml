@@ -1,0 +1,69 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: ./docker/app
+    image: geekset/php-nginx
+    networks:
+      - appnet
+    ports:
+      - 8080:80
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    links:
+      - cache
+      - mongodb
+      - beanstalkd
+
+  cache:
+    image: redis:alpine
+    networks:
+      - appnet
+    volumes:
+      - cachedata:/data
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 1qaz2wsx3edc
+      MYSQL_DATABASE: pastbook-clone
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1qaz2wsx
+    networks:
+      - appnet
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  mongodb:
+    image: "mongo"
+    container_name: mongodb
+    networks:
+      - appnet
+    ports:
+      - "27017:27017"
+    volumes:
+      - /var/data/mongo:/data/db
+
+  beanstalkd:
+    build:
+      context: ./docker/beanstalkd
+    image: geekset/beanstalkd
+    container_name: beanstalkd
+    networks:
+      - appnet
+    ports:
+      - 11300:11300
+    volumes:
+      - /var/data/beanstalkd:/data
+
+networks:
+  appnet:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
+  cachedata:
+    driver: local
