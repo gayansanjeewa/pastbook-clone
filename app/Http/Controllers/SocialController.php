@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Domain\Command\GrantSocialAuthCommand;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialiteUser;
@@ -16,46 +18,29 @@ class SocialController extends Controller
     /**
      * @param string $provider
      * @return RedirectResponse
+     * @throws \InvalidArgumentException
      */
     public function redirect($provider)
     {
-        try {
-            return Socialite::driver($provider)->redirect();
-        } catch (\Exception $e) {
-            throw new \InvalidArgumentException($e->getMessage());
-        }
+        return Socialite::driver($provider)->redirect();
     }
 
     /**
      * @param string $provider
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
+     * @throws BindingResolutionException
      */
     public function callback($provider)
     {
         /** @var SocialiteUser $socialiteUser */
         $socialiteUser = Socialite::driver($provider)->user();
-        $user = $this->createUser($socialiteUser, $provider);
-        auth()->login($user);
-        return redirect()->to('/home');
-    }
 
-    /**
-     * @param SocialiteUser $socialiteUser
-     * @param string $provider
-     * @return User
-     */
-    private function createUser(SocialiteUser $socialiteUser, $provider)
-    {
-        /** @var User $user */
-        $user = User::where('provider_id', $socialiteUser->id)->first();
-        if (!$user) {
-            $user = User::create([
-                'name' => $socialiteUser->name,
-                'email' => $socialiteUser->email,
-                'provider' => $provider,
-                'provider_id' => $socialiteUser->id
-            ]);
-        }
-        return $user;
+        $this->command->dispatch(new GrantSocialAuthCommand($provider, [
+            'name' => $socialiteUser->name,
+            'email' => $socialiteUser->email,
+            'provider_id' => $socialiteUser->id
+        ]));
+
+        return redirect()->to('/home');
     }
 }
