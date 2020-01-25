@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Foundation\OAuth\Client\Facebook;
 use App\Events\UserAlbumPhotosFoundEvent;
 use DateTime;
 use Domain\Command\AuthorizeSocialUserCommand;

@@ -76,7 +76,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <?php
-                                    $url = sprintf('/auth/redirect/%s', App\Foundation\Auth\ProviderType::FACEBOOK);
+                                    $url = sprintf('/auth/redirect/%s', App\Foundation\OAuth\ProviderType::FACEBOOK);
                                     ?>
                                     <a href="{{ url($url) }}" class="btn btn-primary">
                                         <i class="fa fa-facebook"></i>

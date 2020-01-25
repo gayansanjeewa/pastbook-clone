@@ -177,6 +177,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Foundation\Bus\BusServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
+        App\Providers\BusServiceProvider::class,
+        App\Providers\OAppServiceProvider::class,
+
     ],
 
     /*
