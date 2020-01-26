@@ -13,10 +13,26 @@ class UserRepository implements UserRepositoryInterface
 {
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function findWithPhotos(int $userId) : User
     {
         return User::query()->with('photos')->find($userId)->first();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findByProvider(int $providerId): User
+    {
+        return User::query()->where('provider_id', $providerId)->get()->first();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function create(array $user): User
+    {
+        return User::create($user);
     }
 }

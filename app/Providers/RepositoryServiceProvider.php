@@ -15,7 +15,7 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function register()
     {

@@ -13,7 +13,7 @@ class PhotoRepository implements PhotoRepositoryInterface
 {
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function insert(array $photos)
     {

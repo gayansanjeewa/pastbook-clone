@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class BusServiceProvider extends ServiceProvider
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function register()
     {
