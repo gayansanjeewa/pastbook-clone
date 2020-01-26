@@ -3,10 +3,10 @@
 
 namespace Domain\Query\Handlers;
 
+use App\Foundation\OAuth\Facades\OAuthClient;
 use Domain\Query\GetBestPhotosForRangeQuery;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
-use Facebook\Facebook;
 use Facebook\GraphNodes\GraphEdge;
 use Facebook\GraphNodes\GraphNode;
 
@@ -24,13 +24,7 @@ final class GetBestPhotosForRangeQueryHandler
      */
     public function __invoke($query)
     {
-        $credentials = app()['config']['services.facebook'];
-        $client = new Facebook([
-            'app_id' => $credentials['client_id'],
-            'app_secret' => $credentials['client_secret'],
-            'graph_api_version' => $credentials['graph_api_version'],
-            'default_access_token' => $query->getAccessToken(),
-        ]);
+        $client = OAuthClient::provider('facebook', $query->getAccessToken());
 
         // Note
         // I'm pretty sure this is not the optimum query

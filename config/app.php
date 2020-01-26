@@ -177,6 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Foundation\Bus\BusServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
+        App\Foundation\OAuth\OAuthClientServiceProvider::class,
     ],
 
     /*
@@ -228,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'OAuthClient' => App\Foundation\OAuth\Facades\OAuthClient::class,
     ],
 
 ];

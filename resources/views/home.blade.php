@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                        Thanks, you will receive your best 9 photos of 2019 by email!!
                 </div>
             </div>
         </div>
