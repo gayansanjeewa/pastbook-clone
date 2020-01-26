@@ -33,25 +33,4 @@ class GrantSocialAuthCommandHandler
 
         auth()->login($user);
     }
-
-    /**
-     * @param SocialiteUser $socialiteUser
-     * @param string $provider
-     * @return User
-     */
-    private function createUser(SocialiteUser $socialiteUser, $provider)
-    {
-        /** @var User $user */
-        $user = User::where('provider_id', $socialiteUser->id)->first();
-        if (!$user) {
-            $user = User::create([
-                'name' => $socialiteUser->name,
-                'email' => $socialiteUser->email,
-                'provider' => $provider,
-                'provider_id' => $socialiteUser->id
-            ]);
-        }
-        return $user;
-    }
-
 }

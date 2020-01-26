@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use DateTime;
 use Domain\Command\GrantSocialAuthCommand;
+use Domain\Query\GetAlbumPhotosForRangeQuery;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
@@ -47,52 +48,14 @@ class SocialController extends Controller
             'provider_id' => $socialiteUser->id
         ]));
 
-        $since = DateTime::createFromFormat('d-m-Y', '25-01-2020')->getTimestamp();
-        $until = DateTime::createFromFormat('d-m-Y', '26-01-2020')->getTimestamp();
+        if (auth()->check()) {
+            $since = DateTime::createFromFormat('d-m-Y', '25-01-2020')->getTimestamp();
+            $until = DateTime::createFromFormat('d-m-Y', '26-01-2020')->getTimestamp();
 
-
-        $credentials = app()['config']['services.facebook'];
-        $fb = new Facebook([
-            'app_id' => $credentials['client_id'],
-            'app_secret' => $credentials['client_secret'],
-            'graph_api_version' => $credentials['graph_api_version'],
-            'default_access_token' => $socialiteUser->token,
-        ]);
-
-        $query = "me/albums?fields=photos{picture},description,count,updated_time&since={$since}&until={$until}";
-        try {
-            $response = $fb->get($query);
-        } catch (FacebookResponseException $e) {
-            echo 'Graph returned an error: ' . $e->getMessage();
-            exit;
-        } catch (FacebookSDKException $e) {
-            echo 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
-        }
-        $graphEdge = $response->getGraphEdge();
-
-        $pics = $graphEdge->map(function (GraphNode $nodes) {
-            $photoNodes = [];
-            if (!empty($nodes['photos'])) {
-                $photoNodes = $nodes['photos']->map(function ($photos) {
-                    return $photos;
-                });
-            }
-
-            return $photoNodes;
-        });
-
-
-        $filteredArray = array_filter($pics->asArray());
-
-        $flat = [];
-        foreach ($filteredArray as $item) {
-            $flat = $item;
+            $photos = $this->query->execute(new GetAlbumPhotosForRangeQuery($since, $until, $socialiteUser->token));
         }
 
-        dump($flat);
-        dump(count($flat));
-        die();
+
         return redirect()->to('/home');
     }
 }
