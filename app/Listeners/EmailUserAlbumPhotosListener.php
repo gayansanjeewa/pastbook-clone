@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\UserAlbumPhotosFoundEvent;
 use App\Mail\SendUserAlbumEmail;
+use Domain\Model\Photo;
 use Domain\Repository\UserRepositoryInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,9 +35,17 @@ class EmailUserAlbumPhotosListener implements ShouldQueue
      */
     public function handle(UserAlbumPhotosFoundEvent $event)
     {
-        $user = $this->userRepository->find($event->userId);
+        $user = $this->userRepository->findWithPhotos($event->userId);
 
-        // TODO@Gayan: DON'T pass the user
-        Mail::to($user->email)->send(new SendUserAlbumEmail($user));
+        $userDetails = [
+            'name' => $user->name
+        ];
+
+        $photos = $user->photos()->get()->map(function (Photo $photo) {
+            return $photo->image_source;
+        })->toArray();
+
+
+        Mail::to($user->email)->send(new SendUserAlbumEmail($userDetails, $photos));
     }
 }

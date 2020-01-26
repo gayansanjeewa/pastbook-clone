@@ -14,5 +14,5 @@ interface UserRepositoryInterface
      * @param int $userId
      * @return User
      */
-    public function find(int $userId): User;
+    public function findWithPhotos(int $userId): User;
 }

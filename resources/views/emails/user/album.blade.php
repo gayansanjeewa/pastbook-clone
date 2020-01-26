@@ -1,11 +1,13 @@
 <body>
 
-Hey {{ $name }}
+<p>Hey {{ $name }}</p>
 
-Here's your last year's PastBook. Enjoy!
+<p>Here's your best photos from last year. Enjoy!</p>
 
-<img src="{{ $message->embed($image) }}">
+@foreach($photos as $photo)
+    <img src="{{ $message->embed($photo) }}">
+@endforeach
 
-Cheers,
-- PastBook Team
+<p>Cheers,</p>
+<p>PastBook Team</p>
 </body>

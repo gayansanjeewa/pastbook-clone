@@ -15,8 +15,8 @@ class UserRepository implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function find(int $userId) : User
+    public function findWithPhotos(int $userId) : User
     {
-        return User::query()->find($userId)->first();
+        return User::query()->with('photos')->find($userId)->first();
     }
 }
