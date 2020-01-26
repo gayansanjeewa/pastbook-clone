@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Foundation\Auth;
+namespace App\Foundation\OAuth;
 
 /**
  * @author Gayan Sanjeewa <iamgayan@gmail.com>
