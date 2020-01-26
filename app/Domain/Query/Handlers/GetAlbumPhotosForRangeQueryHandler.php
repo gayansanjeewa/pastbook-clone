@@ -32,7 +32,7 @@ final class GetAlbumPhotosForRangeQueryHandler
             'default_access_token' => $query->getAccessToken(),
         ]);
 
-        $query = "me/albums?fields=photos{picture},description,count,updated_time&since={$query->getSince()}&until={$query->getUntil()}";
+        $query = "me/albums?fields=photos{picture,images},description,count,updated_time&since={$query->getSince()}&until={$query->getUntil()}";
 
         $response = $client->get($query);
 

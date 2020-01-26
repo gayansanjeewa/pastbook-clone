@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DateTime;
 use Domain\Command\GrantSocialAuthCommand;
+use Domain\Command\StoreUserPhotosCommand;
 use Domain\Exceptions\AlbumPhotosNotFoundException;
 use Domain\Query\GetAlbumPhotosForRangeQuery;
 use Facebook\Exceptions\FacebookResponseException;
@@ -56,11 +57,15 @@ class SocialController extends Controller
         $since = DateTime::createFromFormat('d-m-Y', '25-01-2020')->getTimestamp(); // TODO@Gayan: 01-01-2019
         $until = DateTime::createFromFormat('d-m-Y', '26-01-2020')->getTimestamp(); // TODO@Gayan: 31-12-2019
 
+        // TODO@Gayan: GetAlbumPhotosForRangeQuery => GetBestPhotosForRangeQuery
         $photos = $this->query->execute(new GetAlbumPhotosForRangeQuery($since, $until, $socialiteUser->token));
 
         if (empty($photos)) {
             throw new AlbumPhotosNotFoundException();
         }
+
+        $this->command->dispatch(new StoreUserPhotosCommand(auth()->id(), $photos));
+        dd($photos);
 
         // TODO@Gayan: Email images
 
