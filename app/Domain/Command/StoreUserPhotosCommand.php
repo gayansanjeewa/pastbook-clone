@@ -6,7 +6,7 @@ namespace Domain\Command;
 /**
  * @author Gayan Sanjeewa <iamgayan@gmail.com>
  */
-class StoreUserPhotosCommand
+final class StoreUserPhotosCommand
 {
     /**
      * @var int

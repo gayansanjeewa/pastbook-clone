@@ -6,7 +6,7 @@ namespace Domain\Query;
 /**
  * @author Gayan Sanjeewa <iamgayan@gmail.com>
  */
-class GetAlbumPhotosForRangeQuery
+class GetBestPhotosForRangeQuery
 {
     /**
      * @var string

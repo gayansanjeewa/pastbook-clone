@@ -3,7 +3,7 @@
 
 namespace Domain\Query\Handlers;
 
-use Domain\Query\GetAlbumPhotosForRangeQuery;
+use Domain\Query\GetBestPhotosForRangeQuery;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
@@ -13,10 +13,10 @@ use Facebook\GraphNodes\GraphNode;
 /**
  * @author Gayan Sanjeewa <iamgayan@gmail.com>
  */
-final class GetAlbumPhotosForRangeQueryHandler
+final class GetBestPhotosForRangeQueryHandler
 {
     /**
-     * @param GetAlbumPhotosForRangeQuery $query
+     * @param GetBestPhotosForRangeQuery $query
      * @return array
      * @throws FacebookSDKException
      * @throws FacebookResponseException
