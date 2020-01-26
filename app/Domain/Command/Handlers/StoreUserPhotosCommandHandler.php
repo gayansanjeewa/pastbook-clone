@@ -38,6 +38,6 @@ class StoreUserPhotosCommandHandler
             ];
         }
 
-        $this->photoRepository->insert($photos);
+//        $this->photoRepository->insert($photos);
     }
 }

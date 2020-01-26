@@ -4,7 +4,9 @@
 namespace App\Providers;
 
 use App\Repository\PhotoRepository;
+use App\Repository\UserRepository;
 use Domain\Repository\PhotoRepositoryInterface;
+use Domain\Repository\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,10 +15,11 @@ use Illuminate\Support\ServiceProvider;
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function register()
     {
         $this->app->bind(PhotoRepositoryInterface::class, PhotoRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 }

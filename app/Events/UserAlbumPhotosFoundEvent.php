@@ -15,13 +15,18 @@ class UserAlbumPhotosFoundEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * @var int
+     */
+    public $userId;
+
+    /**
      * Create a new event instance.
      *
-     * @return void
+     * @param int $userId
      */
-    public function __construct()
+    public function __construct(int $userId)
     {
-        //
+        $this->userId = $userId;
     }
 
     /**

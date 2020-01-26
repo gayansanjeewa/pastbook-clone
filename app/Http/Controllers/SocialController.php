@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserAlbumPhotosFoundEvent;
 use DateTime;
 use Domain\Command\GrantSocialAuthCommand;
 use Domain\Command\StoreUserPhotosCommand;
@@ -65,7 +66,8 @@ class SocialController extends Controller
         }
 
         $this->command->dispatch(new StoreUserPhotosCommand(auth()->id(), $photos));
-        dd($photos);
+
+        event(new UserAlbumPhotosFoundEvent(auth()->id()));
 
         // TODO@Gayan: Email images
 

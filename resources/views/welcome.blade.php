@@ -83,6 +83,7 @@
                 <div class="title m-b-md">
                     PastBook
                 </div>
+                <p>Sign in with Facebook to get your last year's PastBook!</p>
             </div>
         </div>
     </body>
