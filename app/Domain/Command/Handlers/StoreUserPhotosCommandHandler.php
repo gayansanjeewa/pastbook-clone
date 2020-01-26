@@ -4,24 +4,25 @@
 namespace Domain\Command\Handlers;
 
 use Domain\Command\StoreUserPhotosCommand;
-use Domain\Repository\PhotoRepositoryInterface;
+use Domain\Model\Photo;
+use Domain\Repository\UserRepositoryInterface;
 
 /**
  * @author Gayan Sanjeewa <iamgayan@gmail.com>
  */
-class StoreUserPhotosCommandHandler
+final class StoreUserPhotosCommandHandler
 {
     /**
-     * @var PhotoRepositoryInterface
+     * @var UserRepositoryInterface
      */
-    private $photoRepository;
+    private $userRepository;
 
     /**
-     * @param PhotoRepositoryInterface $photoRepository
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(PhotoRepositoryInterface $photoRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->photoRepository = $photoRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -32,13 +33,14 @@ class StoreUserPhotosCommandHandler
         $photos = [];
 
         foreach ($command->getPhotos() as $photoDetails) {
-            $photos[] = [
-                'user_id' => $command->getUserId(),
-                'picture_id' => $photoDetails['id'],
-                'image_source' => current($photoDetails['images'])['source'],
-            ];
+            $photo = new Photo();
+            $photo->user_id = $command->getUserId();
+            $photo->picture_id = $photoDetails['id'];
+            $photo->image_source = current($photoDetails['images'])['source'];
+
+            $photos[] = $photo;
         }
 
-        $this->photoRepository->insert($photos);
+        $this->userRepository->removeAndInsert($photos, $command->getUserId());
     }
 }

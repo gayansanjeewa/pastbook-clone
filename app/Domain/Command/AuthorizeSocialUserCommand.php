@@ -6,7 +6,7 @@ namespace Domain\Command;
 /**
  * @author Gayan Sanjeewa <iamgayan@gmail.com>
  */
-class GrantSocialAuthCommand
+final class AuthorizeSocialUserCommand
 {
     /**
      * @var string

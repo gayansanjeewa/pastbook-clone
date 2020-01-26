@@ -18,13 +18,19 @@ interface UserRepositoryInterface
 
     /**
      * @param int $providerId
-     * @return User
+     * @return User|null
      */
-    public function findByProvider(int $providerId): User;
+    public function getByProvider(int $providerId);
 
     /**
      * @param array $user
      * @return User
      */
     public function create(array $user): User;
+
+    /**
+     * @param array $photos
+     * @param int $userId
+     */
+    public function removeAndInsert(array $photos, int $userId): void;
 }

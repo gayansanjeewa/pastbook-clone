@@ -15,7 +15,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function findWithPhotos(int $userId) : User
+    public function findWithPhotos(int $userId): User
     {
         return User::query()->with('photos')->find($userId)->first();
     }
@@ -23,7 +23,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function findByProvider(int $providerId): User
+    public function getByProvider(int $providerId): User
     {
         return User::query()->where('provider_id', $providerId)->get()->first();
     }
@@ -34,5 +34,15 @@ class UserRepository implements UserRepositoryInterface
     public function create(array $user): User
     {
         return User::create($user);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeAndInsert(array $photos, int $userId): void
+    {
+        $user = User::query()->find($userId);
+        $user->photos()->delete();
+        $user->photos()->saveMany($photos);
     }
 }
