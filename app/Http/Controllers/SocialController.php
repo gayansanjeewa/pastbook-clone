@@ -55,8 +55,8 @@ class SocialController extends Controller
            throw new AuthenticationException();
         }
 
-        $since = DateTime::createFromFormat('d-m-Y', '25-01-2020')->getTimestamp(); // TODO@Gayan: 01-01-2019
-        $until = DateTime::createFromFormat('d-m-Y', '26-01-2020')->getTimestamp(); // TODO@Gayan: 31-12-2019
+        $since = DateTime::createFromFormat('d-m-Y', config('duration.since'))->getTimestamp(); // TODO@Gayan: 01-01-2019
+        $until = DateTime::createFromFormat('d-m-Y', config('duration.until'))->getTimestamp(); // TODO@Gayan: 31-12-2019
 
         // TODO@Gayan: GetAlbumPhotosForRangeQuery => GetBestPhotosForRangeQuery
         $photos = $this->query->execute(new GetAlbumPhotosForRangeQuery($since, $until, $socialiteUser->token));

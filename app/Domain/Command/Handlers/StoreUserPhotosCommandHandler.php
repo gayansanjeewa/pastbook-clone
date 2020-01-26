@@ -30,6 +30,7 @@ class StoreUserPhotosCommandHandler
     public function __invoke($command)
     {
         $photos = [];
+
         foreach ($command->getPhotos() as $photoDetails) {
             $photos[] = [
                 'user_id' => $command->getUserId(),
@@ -38,6 +39,6 @@ class StoreUserPhotosCommandHandler
             ];
         }
 
-//        $this->photoRepository->insert($photos);
+        $this->photoRepository->insert($photos);
     }
 }

@@ -32,6 +32,10 @@ final class GetAlbumPhotosForRangeQueryHandler
             'default_access_token' => $query->getAccessToken(),
         ]);
 
+        // Note
+        // I'm pretty sure this is not the optimum query
+        // I wanted to get something like me/photos... but didn't work even in some places in doc suggest it
+        // Therefore due to the time frame I went with this query and manipulate by code... not the perfect solution I know
         $query = "me/albums?fields=photos{picture,images},description,count,updated_time&since={$query->getSince()}&until={$query->getUntil()}";
 
         $response = $client->get($query);
@@ -65,6 +69,6 @@ final class GetAlbumPhotosForRangeQueryHandler
             $photos = $photoNode;
         }
 
-        return $photos;
+        return array_slice($photos, 0, 8);
     }
 }
