@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use DateTime;
 use Domain\Command\GrantSocialAuthCommand;
+use Domain\Exceptions\AlbumPhotosNotFoundException;
 use Domain\Query\GetAlbumPhotosForRangeQuery;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
-use Facebook\Facebook;
-use Facebook\GraphNodes\GraphNode;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialiteUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -36,6 +34,9 @@ class SocialController extends Controller
      * @return RedirectResponse
      * @throws BindingResolutionException
      * @throws FacebookSDKException
+     * @throws FacebookResponseException
+     * @throws FacebookSDKException
+     * @throws AuthenticationException
      */
     public function callback($provider)
     {
@@ -48,13 +49,20 @@ class SocialController extends Controller
             'provider_id' => $socialiteUser->id
         ]));
 
-        if (auth()->check()) {
-            $since = DateTime::createFromFormat('d-m-Y', '25-01-2020')->getTimestamp();
-            $until = DateTime::createFromFormat('d-m-Y', '26-01-2020')->getTimestamp();
-
-            $photos = $this->query->execute(new GetAlbumPhotosForRangeQuery($since, $until, $socialiteUser->token));
+        if (!auth()->check()) {
+           throw new AuthenticationException();
         }
 
+        $since = DateTime::createFromFormat('d-m-Y', '25-01-2020')->getTimestamp(); // TODO@Gayan: 01-01-2019
+        $until = DateTime::createFromFormat('d-m-Y', '26-01-2020')->getTimestamp(); // TODO@Gayan: 31-12-2019
+
+        $photos = $this->query->execute(new GetAlbumPhotosForRangeQuery($since, $until, $socialiteUser->token));
+
+        if (empty($photos)) {
+            throw new AlbumPhotosNotFoundException();
+        }
+
+        // TODO@Gayan: Email images
 
         return redirect()->to('/home');
     }
