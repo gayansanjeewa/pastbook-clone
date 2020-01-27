@@ -38,7 +38,7 @@ class AuthorizeSocialUserCommandHandlerTest extends TestCase
     /**
      * @test
      */
-    public function invoke_withValidCommandAndExistingUser_SuccessfullyGrantAccess()
+    public function invoke_withValidCommandAndExistingUser_successfullyGrantAccess()
     {
         $credentials = [
             'name' => 'foo',

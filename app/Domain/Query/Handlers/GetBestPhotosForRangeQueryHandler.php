@@ -4,6 +4,7 @@
 namespace Domain\Query\Handlers;
 
 use App\Foundation\OAuth\Facades\OAuthClient;
+use App\Foundation\OAuth\ProviderType;
 use Domain\Exceptions\AlbumPhotosNotFoundException;
 use Domain\Query\GetBestPhotosForRangeQuery;
 use Facebook\Exceptions\FacebookResponseException;
@@ -26,7 +27,7 @@ final class GetBestPhotosForRangeQueryHandler
      */
     public function __invoke($query)
     {
-        $client = OAuthClient::provider('facebook', $query->getAccessToken());
+        $client = OAuthClient::provider(ProviderType::FACEBOOK, $query->getAccessToken());
 
         // Note
         // I'm pretty sure this is not the optimum query
