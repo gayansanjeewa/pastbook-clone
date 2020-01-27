@@ -17,11 +17,10 @@ use App\Foundation\OAuth\ProviderType;
 use Domain\Exceptions\AlbumPhotosNotFoundException;
 use Domain\Query\GetBestPhotosForRangeQuery;
 use Domain\Query\Handlers\GetBestPhotosForRangeQueryHandler;
-use Domain\Repository\UserRepositoryInterface;
+use Facebook\Exceptions\FacebookSDKException;
 use Facebook\FacebookResponse;
 use Facebook\GraphNodes\GraphEdge;
 use Mockery;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -29,17 +28,6 @@ use Tests\TestCase;
  */
 final class GetBestPhotosForRangeQueryHandlerTest extends TestCase
 {
-    /**
-     * @var UserRepositoryInterface|MockObject
-     */
-    private $userRepository;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->userRepository = $this->createMock(UserRepositoryInterface::class);
-    }
 
     /**
      * @return GetBestPhotosForRangeQueryHandler
@@ -51,8 +39,10 @@ final class GetBestPhotosForRangeQueryHandlerTest extends TestCase
 
     /**
      * @test
+     *
+     * @throws FacebookSDKException
      */
-    public function invoke_withValidTokenButWithoutAnyPhotos_throwNotFoundException()
+    public function invoke_withValidTokenButWithoutAnyPhotos_throwAlbumPhotosNotFoundException()
     {
         $this->expectException(AlbumPhotosNotFoundException::class);
 
@@ -86,6 +76,8 @@ final class GetBestPhotosForRangeQueryHandlerTest extends TestCase
 
     /**
      * @test
+     *
+     * @throws FacebookSDKException
      */
     public function invoke_withValidToken_executeQuerySuccessfully()
     {

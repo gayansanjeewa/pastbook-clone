@@ -34,11 +34,8 @@ class SocialController extends Controller
     /**
      * @param string $provider
      * @return RedirectResponse
-     * @throws BindingResolutionException
-     * @throws FacebookSDKException
-     * @throws FacebookResponseException
-     * @throws FacebookSDKException
      * @throws AuthenticationException
+     * @throws BindingResolutionException
      */
     public function callback(string $provider): RedirectResponse
     {

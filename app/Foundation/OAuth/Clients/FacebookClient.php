@@ -10,7 +10,7 @@ use Facebook\FacebookResponse;
 /**
  * @author Gayan Sanjeewa <iamgayan@gmail.com>
  */
-class Facebook extends AbstractOAuthClient
+class FacebookClient extends AbstractOAuthClient
 {
     /**
      * @var FacebookSDK

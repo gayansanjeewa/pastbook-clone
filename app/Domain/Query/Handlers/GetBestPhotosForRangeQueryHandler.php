@@ -7,7 +7,6 @@ use App\Foundation\OAuth\Facades\OAuthClient;
 use App\Foundation\OAuth\ProviderType;
 use Domain\Exceptions\AlbumPhotosNotFoundException;
 use Domain\Query\GetBestPhotosForRangeQuery;
-use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\GraphNodes\GraphEdge;
 use Facebook\GraphNodes\GraphNode;
@@ -20,8 +19,6 @@ final class GetBestPhotosForRangeQueryHandler
     /**
      * @param GetBestPhotosForRangeQuery $query
      * @return array
-     * @throws FacebookSDKException
-     * @throws FacebookResponseException
      * @throws FacebookSDKException
      * @throws AlbumPhotosNotFoundException
      */
