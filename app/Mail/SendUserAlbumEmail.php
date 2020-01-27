@@ -38,7 +38,9 @@ class SendUserAlbumEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.user.album')
+        return $this
+            ->view('emails.user.album')
+            ->subject('PastBook Memories...')
             ->with([
                 'name' => $this->getUserDetails()['name'],
                 'photos' => $this->getPhotos(),
