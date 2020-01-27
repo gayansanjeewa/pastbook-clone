@@ -20,14 +20,22 @@ docker-compose ps
 ```bash
 docker-compose exec app composer install
 ```
-- Set `.env` variables and launch the app
+- Create `.env` from `.env.example` and generate app key.
 ```bash
 cp .env.example .env
 docker-compose exec app php artisan key:generate
+```
+- Fill env specific info and clear cache. Specially supply mail configurations, other once are pre-filled. 
+```bash
+docker-compose exec app php artisan cache:clear
+```
+- Run migrations
+```bash
 docker-compose exec app php artisan migrate
 ```
 - Hit http://localhost:8080 and the site should be working
-
+- Additionally, you might want to give `777` permissions to `storage/log` and `storage/framework` directories.
+    
 ## PastBook-Clone functionaries
 - Sign in with Facebook
 - Check your inbox to see mail with your best photos of 2019

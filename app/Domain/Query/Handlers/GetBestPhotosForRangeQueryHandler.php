@@ -4,6 +4,7 @@
 namespace Domain\Query\Handlers;
 
 use App\Foundation\OAuth\Facades\OAuthClient;
+use Domain\Exceptions\AlbumPhotosNotFoundException;
 use Domain\Query\GetBestPhotosForRangeQuery;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
@@ -21,6 +22,7 @@ final class GetBestPhotosForRangeQueryHandler
      * @throws FacebookSDKException
      * @throws FacebookResponseException
      * @throws FacebookSDKException
+     * @throws AlbumPhotosNotFoundException
      */
     public function __invoke($query)
     {
@@ -36,9 +38,12 @@ final class GetBestPhotosForRangeQueryHandler
 
         $albumGraphEdge = $response->getGraphEdge();
 
+        if (empty($albumGraphEdge->count())) {
+            throw new AlbumPhotosNotFoundException();
+        }
+
         return $this->extractAlbumPhotos($albumGraphEdge);
     }
-
 
     /**
      * @param GraphEdge $albumGraphEdge
@@ -56,7 +61,6 @@ final class GetBestPhotosForRangeQueryHandler
 
             return $photoNodes;
         });
-
 
         $photos = [];
         foreach (array_filter($photoNodes->asArray()) as $photoNode) {

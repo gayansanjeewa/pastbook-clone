@@ -58,16 +58,18 @@ class SocialController extends Controller
         $since = DateTime::createFromFormat('d-m-Y', config('duration.since'))->getTimestamp();
         $until = DateTime::createFromFormat('d-m-Y', config('duration.until'))->getTimestamp();
 
-        $photos = $this->query->execute(new GetBestPhotosForRangeQuery($since, $until, $socialiteUser->token));
-
-        if (empty($photos)) {
-            throw new AlbumPhotosNotFoundException();
+        try {
+            $photos = $this->query->execute(new GetBestPhotosForRangeQuery($since, $until, $socialiteUser->token));
+        } catch (AlbumPhotosNotFoundException $exception) {
+            request()->session()->flash('error', 'Sorry. No photos found!');
+            return redirect()->to('/home');
         }
 
         $this->command->dispatch(new StoreUserPhotosCommand(auth()->id(), $photos));
 
         event(new UserAlbumPhotosFoundEvent(auth()->id()));
 
+        request()->session()->flash('success', 'Thanks, you will receive your best 9 photos of 2019 by email!!');
         return redirect()->to('/home');
     }
 }
