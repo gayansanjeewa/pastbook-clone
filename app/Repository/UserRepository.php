@@ -23,7 +23,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getByProvider(int $providerId): User
+    public function getByProvider(int $providerId)
     {
         return User::query()->where('provider_id', $providerId)->get()->first();
     }

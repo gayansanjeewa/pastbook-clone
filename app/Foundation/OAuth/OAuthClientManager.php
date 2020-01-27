@@ -4,10 +4,9 @@
 namespace App\Foundation\OAuth;
 
 use App\Foundation\OAuth\Clients\AbstractOAuthClient;
-use App\Foundation\OAuth\Clients\Facebook;
+use App\Foundation\OAuth\Clients\FacebookClient;
 use App\Foundation\OAuth\Clients\Manager;
 use App\Foundation\OAuth\Contracts\Factory as OAuthContract;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -29,9 +28,10 @@ class OAuthClientManager extends Manager implements OAuthContract
     /**
      * @inheritDoc
      */
-    public function provider(string $name = null, string $token = null)
+    public function provider(?string $name = null, string $token = null)
     {
-        $this->setConfig($name, $token);
+        $this->addTokenToConfiguration($token, $name);
+
         return $this->providers[$name] = $this->get($name);
     }
 
@@ -92,15 +92,15 @@ class OAuthClientManager extends Manager implements OAuthContract
     protected function createFacebookClient(array $config): AbstractOAuthClient
     {
         return $this->buildProvider(
-            Facebook::class, $config
+            FacebookClient::class, $config
         );
     }
 
     /**
-     * @param string|null $name
      * @param string|null $token
+     * @param string|null $name
      */
-    private function setConfig(?string $name, ?string $token)
+    private function addTokenToConfiguration(?string $token, ?string $name)
     {
         $config = $this->getAppConfig($name);
         $config['default_access_token'] = $token;

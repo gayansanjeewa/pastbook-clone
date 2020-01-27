@@ -10,6 +10,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * @author Gayan Sanjeewa <iamgayan@gmail.com>
+ */
 class EmailUserAlbumPhotosListener implements ShouldQueue
 {
     /**
@@ -31,7 +34,6 @@ class EmailUserAlbumPhotosListener implements ShouldQueue
      * Handle the event.
      *
      * @param  UserAlbumPhotosFoundEvent  $event
-     * @return void
      */
     public function handle(UserAlbumPhotosFoundEvent $event)
     {

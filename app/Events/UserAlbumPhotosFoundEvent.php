@@ -10,6 +10,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * @author Gayan Sanjeewa <iamgayan@gmail.com>
+ */
 class UserAlbumPhotosFoundEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;

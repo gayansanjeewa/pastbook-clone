@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -65,25 +66,23 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
             <div class="content">
                 <div class="title m-b-md">
                     PastBook
                 </div>
                 <p>Sign in with Facebook to get your last year's PastBook!</p>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <?php
+                        $url = sprintf('/auth/redirect/%s', App\Foundation\OAuth\ProviderType::FACEBOOK);
+                        ?>
+                        <a href="{{ url($url) }}" class="btn btn-primary">
+                            <i class="fa fa-facebook"></i>
+                            Log in with Facebook
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
