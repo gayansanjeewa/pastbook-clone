@@ -38,4 +38,6 @@ RUN chmod +x /usr/bin/start-container
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
 RUN apt install nodejs
 
+COPY xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
+
 ENTRYPOINT ["start-container"]

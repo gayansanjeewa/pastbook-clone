@@ -5,6 +5,8 @@ services:
     build:
       context: ./docker/app
     image: iamgayan/php-nginx
+    environment:
+      XDEBUG_HOST: ${XDEBUG_HOST}
     networks:
       - appnet
     ports:

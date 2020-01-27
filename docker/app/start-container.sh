@@ -19,3 +19,7 @@ else
     # Otherwise start supervisord
     /usr/bin/supervisord
 fi
+
+sed -i "s/xdebug\.remote_host\=.*/xdebug\.remote_host\=$XDEBUG_HOST/g" /etc/php/7.2/mods-available/xdebug.ini
+
+php -S 0.0.0.0:80 -t /var/www/html
