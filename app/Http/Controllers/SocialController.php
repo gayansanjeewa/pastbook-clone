@@ -12,6 +12,7 @@ use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Event;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialiteUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -64,7 +65,7 @@ class SocialController extends Controller
 
         $this->command->dispatch(new StoreUserPhotosCommand(auth()->id(), $photos));
 
-        event(new UserAlbumPhotosFoundEvent(auth()->id()));
+        Event::dispatch(new UserAlbumPhotosFoundEvent(auth()->id()));
 
         request()->session()->flash('success', 'Thanks, you will receive your best 9 photos of 2019 by email!!');
         return redirect()->to('/home');

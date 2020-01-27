@@ -12,9 +12,9 @@ class SendUserAlbumEmail extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * @var User
+     * @var array
      */
-    private $user;
+    private $userDetails;
 
     /**
      * @var array
@@ -27,7 +27,7 @@ class SendUserAlbumEmail extends Mailable
      */
     public function __construct(array $userDetails, array $photos)
     {
-        $this->user = $userDetails;
+        $this->userDetails = $userDetails;
         $this->photos = $photos;
     }
 
@@ -40,8 +40,24 @@ class SendUserAlbumEmail extends Mailable
     {
         return $this->view('emails.user.album')
             ->with([
-                'name' => $this->user['name'],
-                'photos' => $this->photos,
+                'name' => $this->getUserDetails()['name'],
+                'photos' => $this->getPhotos(),
             ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserDetails(): array
+    {
+        return $this->userDetails;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPhotos(): array
+    {
+        return $this->photos;
     }
 }
