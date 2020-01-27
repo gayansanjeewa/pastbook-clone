@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: ./docker/app
-    image: geekset/php-nginx
+    image: iamgayan/php-nginx
     networks:
       - appnet
     ports:
@@ -49,7 +49,7 @@ services:
   beanstalkd:
     build:
       context: ./docker/beanstalkd
-    image: geekset/beanstalkd
+    image: iamgayan/beanstalkd
     container_name: beanstalkd
     networks:
       - appnet

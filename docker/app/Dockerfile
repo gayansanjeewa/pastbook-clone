@@ -1,16 +1,16 @@
 FROM ubuntu:18.04
 
-LABEL maintainer="GeekSet.io <geekset.tv@gmail.com>"
+LABEL maintainer="Gayan Sanjeewa <iamgayan@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update \
-    && apt install -y gnupg tzdata \
+RUN apt-get update \
+    && apt-get install -y gnupg tzdata \
     && echo "UTC" > /etc/timezone \
     && dpkg-reconfigure -f noninteractive tzdata
 
-RUN apt update --fix-missing \
-    && apt install -y curl zip unzip git supervisor sqlite3 \
+RUN apt-get update --fix-missing \
+    && apt-get install -y curl zip unzip git supervisor sqlite3 \
     nginx php7.2-fpm php7.2-cli \
     php7.2-pgsql php7.2-sqlite3 php7.2-gd \
     php7.2-curl php7.2-memcached \
@@ -20,8 +20,8 @@ RUN apt update --fix-missing \
     php-msgpack php-igbinary \
     && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && mkdir /run/php \
-    && apt -y autoremove \
-    && apt clean \
+    && apt-get -y autoremove \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && echo "daemon off;" >> /etc/nginx/nginx.conf
 
