@@ -42,7 +42,7 @@ docker-compose exec app php artisan migrate
 
 ## Limitations PastBook-Clone
 
-- Queue worker - beanstalkd - is in development. So you have to do it manually
+- Queue worker - Supervisord - is in development. So you have to do it manually
 ```bash
 docker-compose exec app php artisan queue:work 
 ```
